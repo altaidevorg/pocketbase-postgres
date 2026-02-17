@@ -1,0 +1,228 @@
+[14.00ms] CREATE TABLE IF NOT EXISTS `_migrations` (file VARCHAR(255) PRIMARY KEY NOT NULL, applied BIGINT NOT NULL)
+[1.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1640988000_aux_init.go' LIMIT 1
+[0.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1640988000_init.go' LIMIT 1
+[0.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1717233556_v0.23_migrate.go' LIMIT 1
+[0.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1717233557_v0.23_migrate2.go' LIMIT 1
+[0.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1717233558_v0.23_migrate3.go' LIMIT 1
+[0.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1717233559_v0.23_migrate4.go' LIMIT 1
+[0.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1763020353_update_default_auth_alert_templates.go' LIMIT 1
+[6.00ms] SELECT `_collections`.* FROM "_collections" ORDER BY "created" ASC
+[0.00ms] SELECT `_params`.* FROM "_params" WHERE "id"='settings'
+[0.00ms] SELECT `_collections`.* FROM "_collections" ORDER BY "created" ASC
+[0.00ms] CREATE TABLE IF NOT EXISTS `_migrations` (file VARCHAR(255) PRIMARY KEY NOT NULL, applied BIGINT NOT NULL)
+[0.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1640988000_aux_init.go' LIMIT 1
+[0.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1640988000_init.go' LIMIT 1
+[0.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1717233556_v0.23_migrate.go' LIMIT 1
+[0.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1717233557_v0.23_migrate2.go' LIMIT 1
+[0.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1717233558_v0.23_migrate3.go' LIMIT 1
+[0.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1717233559_v0.23_migrate4.go' LIMIT 1
+[0.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1763020353_update_default_auth_alert_templates.go' LIMIT 1
+2026/02/17 08:12:05 Server started at http://127.0.0.1:8090
+├─ REST API:  http://127.0.0.1:8090/api/
+└─ Dashboard: http://127.0.0.1:8090/_/
+[1.00ms] SELECT count(*) FROM "_superusers" WHERE NOT ("email"='__pbinstaller@example.com')
+ERROR POST /api/admins/auth-with-password
+└─ The requested resource wasn't found.
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "email"='admin@example.com' LIMIT 1
+ERROR POST /api/collections/_superusers/auth-with-password
+└─ Failed to authenticate.
+   └─ invalid login credentials
+[0.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "email"='admin@example.com' LIMIT 1
+[1.00ms] SELECT "_authOrigins".* FROM "_authOrigins" WHERE "collectionRef"='pbc_3142635823' AND "recordRef"='bmz6qulk542bz75' ORDER BY "created" DESC
+[0.00ms] SELECT `_collections`.* FROM "_collections" WHERE "id"='pbc_3142635823'
+[0.00ms] SELECT (1) FROM "_superusers" WHERE "id"='bmz6qulk542bz75' LIMIT 1
+[5.00ms] UPDATE "_authOrigins" SET "collectionRef"='pbc_3142635823', "created"='2026-02-17 04:19:30.307Z', "fingerprint"='a6b62a78efce5f751c7de7b861fe9d97', "id"='z4ib0h76u4vnvjp', "recordRef"='bmz6qulk542bz75', "updated"='2026-02-17 05:12:47.269Z' WHERE "id"='z4ib0h76u4vnvjp'
+INFO POST /api/collections/_superusers/auth-with-password
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+ERROR GET /api/collections/posts/records?page=1&perPage=30&sort=-created
+└─ Something went wrong while processing your request.
+   └─ invalid sort field "created"
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+ERROR GET /api/collections/posts/records?page=1&perPage=30&sort=-updated
+└─ Something went wrong while processing your request.
+   └─ invalid sort field "updated"
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+[0.00ms] SELECT "posts".* FROM "posts" ORDER BY `posts`.`id` ASC LIMIT 30
+[9.00ms] SELECT COUNT(DISTINCT `posts`.`id`) FROM "posts"
+INFO GET /api/collections/posts/records?page=1&perPage=30&sort=id
+[0.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "email"='admin@example.com' LIMIT 1
+[0.00ms] SELECT "_authOrigins".* FROM "_authOrigins" WHERE "collectionRef"='pbc_3142635823' AND "recordRef"='bmz6qulk542bz75' ORDER BY "created" DESC
+[1.00ms] SELECT `_collections`.* FROM "_collections" WHERE "id"='pbc_3142635823'
+[1.00ms] SELECT (1) FROM "_superusers" WHERE "id"='bmz6qulk542bz75' LIMIT 1
+[5.00ms] UPDATE "_authOrigins" SET "collectionRef"='pbc_3142635823', "created"='2026-02-17 04:19:30.307Z', "fingerprint"='a6b62a78efce5f751c7de7b861fe9d97', "id"='z4ib0h76u4vnvjp', "recordRef"='bmz6qulk542bz75', "updated"='2026-02-17 05:13:13.088Z' WHERE "id"='z4ib0h76u4vnvjp'
+INFO POST /api/collections/_superusers/auth-with-password
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+ERROR GET /api/collections/posts/records?page=1&perPage=30&sort=-created
+└─ Something went wrong while processing your request.
+   └─ invalid sort field "created"
+[0.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+ERROR GET /api/collections/posts/records?page=1&perPage=30&sort=-updated
+└─ Something went wrong while processing your request.
+   └─ invalid sort field "updated"
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+[0.00ms] SELECT "posts".* FROM "posts" ORDER BY `posts`.`id` ASC LIMIT 30
+[0.00ms] SELECT COUNT(DISTINCT `posts`.`id`) FROM "posts"
+INFO GET /api/collections/posts/records?page=1&perPage=30&sort=id
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "email"='admin@example.com' LIMIT 1
+[1.00ms] SELECT "_authOrigins".* FROM "_authOrigins" WHERE "collectionRef"='pbc_3142635823' AND "recordRef"='bmz6qulk542bz75' ORDER BY "created" DESC
+[0.00ms] SELECT `_collections`.* FROM "_collections" WHERE "id"='pbc_3142635823'
+[1.00ms] SELECT (1) FROM "_superusers" WHERE "id"='bmz6qulk542bz75' LIMIT 1
+[2.00ms] UPDATE "_authOrigins" SET "collectionRef"='pbc_3142635823', "created"='2026-02-17 04:19:30.307Z', "fingerprint"='a6b62a78efce5f751c7de7b861fe9d97', "id"='z4ib0h76u4vnvjp', "recordRef"='bmz6qulk542bz75', "updated"='2026-02-17 05:13:41.677Z' WHERE "id"='z4ib0h76u4vnvjp'
+INFO POST /api/collections/_superusers/auth-with-password
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+INFO GET /api/collections/posts
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+[1.00ms] SELECT `_collections`.* FROM "_collections" WHERE `id`='pbc_1125843985' OR LOWER(`name`)='pbc_1125843985' LIMIT 1
+[1.00ms] SELECT `_collections`.* FROM "_collections" WHERE "id"<>'pbc_1125843985'
+[4.00ms] DROP TABLE IF EXISTS `posts`
+[1.00ms] SELECT `_collections`.* FROM "_collections" WHERE "type"='view' ORDER BY "created" ASC
+[0.00ms] DELETE FROM "_collections" WHERE "id"='pbc_1125843985'
+[1.00ms] SELECT `_collections`.* FROM "_collections" ORDER BY "created" ASC
+[1.00ms] SELECT `_collections`.* FROM "_collections" WHERE `id`='pbc_1125843985' OR LOWER(`name`)='pbc_1125843985' LIMIT 1
+[0.00ms] INSERT INTO "_migrations" ("applied", "file") VALUES (1771305221721861, '1771305221_deleted_posts.js')
+INFO DELETE /api/collections/posts
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+[1.00ms] SELECT (1) FROM "_collections" WHERE "id"='pbc_1125843985' LIMIT 1
+[0.00ms] SELECT (1) FROM "_collections" WHERE "id"='pbc_1125843985' LIMIT 1
+[0.00ms] SELECT "id" FROM "_collections" WHERE "id"='pbc_1125843985' LIMIT 1
+[1.00ms] SELECT count(*) FROM "_collections" WHERE (LOWER("name")='posts') AND ("id"<>'pbc_3233087073') LIMIT 1
+[0.00ms] SELECT `_collections`.* FROM "_collections" WHERE "id"='posts'
+[0.00ms] SELECT count(*) FROM "_collections" WHERE LOWER("name")='posts' LIMIT 1
+[1.00ms] SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'posts' LIMIT 1
+[1.00ms] INSERT INTO "_collections" ("createRule", "created", "deleteRule", "fields", "id", "indexes", "listRule", "name", "options", "system", "type", "updateRule", "updated", "viewRule") VALUES (NULL, '2026-02-17 05:13:41.731Z', NULL, '[{"autogeneratePattern":"[a-z0-9]{15}","hidden":false,"id":"text3208210256","max":15,"min":15,"name":"id","pattern":"^[a-z0-9]+$","presentable":false,"primaryKey":true,"required":true,"system":true,"type":"text"}]', 'pbc_1125843985', '[]', NULL, 'posts', '{}', false, 'base', NULL, '2026-02-17 05:13:41.731Z', NULL)
+[14.00ms] CREATE TABLE "posts" ("id" TEXT PRIMARY KEY DEFAULT ('r'||substring(md5(random()::text) from 1 for 14)) NOT NULL)
+[0.00ms] SELECT `_collections`.* FROM "_collections" WHERE "type"='view' ORDER BY "created" ASC
+[0.00ms] SELECT `_collections`.* FROM "_collections" ORDER BY "created" ASC
+[1.00ms] SELECT `_collections`.* FROM "_collections" WHERE `id`='pbc_1125843985' OR LOWER(`name`)='pbc_1125843985' LIMIT 1
+[0.00ms] INSERT INTO "_migrations" ("applied", "file") VALUES (1771305221759956, '1771305221_created_posts.js')
+INFO POST /api/collections
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+[2.00ms] INSERT INTO "posts" ("id") VALUES ('eg6hr6rwtgmyf4d')
+INFO POST /api/collections/posts/records
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+ERROR GET /api/collections/posts/records?sort=-created
+└─ Something went wrong while processing your request.
+   └─ invalid sort field "created"
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "email"='admin@example.com' LIMIT 1
+[1.00ms] SELECT "_authOrigins".* FROM "_authOrigins" WHERE "collectionRef"='pbc_3142635823' AND "recordRef"='bmz6qulk542bz75' ORDER BY "created" DESC
+[0.00ms] SELECT `_collections`.* FROM "_collections" WHERE "id"='pbc_3142635823'
+[0.00ms] SELECT (1) FROM "_superusers" WHERE "id"='bmz6qulk542bz75' LIMIT 1
+[5.00ms] UPDATE "_authOrigins" SET "collectionRef"='pbc_3142635823', "created"='2026-02-17 04:19:30.307Z', "fingerprint"='a6b62a78efce5f751c7de7b861fe9d97', "id"='z4ib0h76u4vnvjp', "recordRef"='bmz6qulk542bz75', "updated"='2026-02-17 05:14:09.070Z' WHERE "id"='z4ib0h76u4vnvjp'
+INFO POST /api/collections/_superusers/auth-with-password
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+INFO GET /api/collections/posts
+[0.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+[0.00ms] SELECT `_collections`.* FROM "_collections" WHERE `id`='pbc_1125843985' OR LOWER(`name`)='pbc_1125843985' LIMIT 1
+[0.00ms] SELECT `_collections`.* FROM "_collections" WHERE "id"<>'pbc_1125843985'
+[2.00ms] DROP TABLE IF EXISTS `posts`
+[0.00ms] SELECT `_collections`.* FROM "_collections" WHERE "type"='view' ORDER BY "created" ASC
+[0.00ms] DELETE FROM "_collections" WHERE "id"='pbc_1125843985'
+[0.00ms] SELECT `_collections`.* FROM "_collections" ORDER BY "created" ASC
+[0.00ms] SELECT `_collections`.* FROM "_collections" WHERE `id`='pbc_1125843985' OR LOWER(`name`)='pbc_1125843985' LIMIT 1
+[1.00ms] INSERT INTO "_migrations" ("applied", "file") VALUES (1771305249114670, '1771305249_deleted_posts.js')
+INFO DELETE /api/collections/posts
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+[1.00ms] SELECT (1) FROM "_collections" WHERE "id"='pbc_1125843985' LIMIT 1
+[0.00ms] SELECT (1) FROM "_collections" WHERE "id"='pbc_1125843985' LIMIT 1
+[0.00ms] SELECT "id" FROM "_collections" WHERE "id"='pbc_1125843985' LIMIT 1
+[0.00ms] SELECT count(*) FROM "_collections" WHERE (LOWER("name")='posts') AND ("id"<>'pbc_3233087073') LIMIT 1
+[0.00ms] SELECT `_collections`.* FROM "_collections" WHERE "id"='posts'
+[0.00ms] SELECT count(*) FROM "_collections" WHERE LOWER("name")='posts' LIMIT 1
+[1.00ms] SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'posts' LIMIT 1
+[0.00ms] INSERT INTO "_collections" ("createRule", "created", "deleteRule", "fields", "id", "indexes", "listRule", "name", "options", "system", "type", "updateRule", "updated", "viewRule") VALUES (NULL, '2026-02-17 05:14:09.121Z', NULL, '[{"autogeneratePattern":"[a-z0-9]{15}","hidden":false,"id":"text3208210256","max":15,"min":15,"name":"id","pattern":"^[a-z0-9]+$","presentable":false,"primaryKey":true,"required":true,"system":true,"type":"text"},{"autogeneratePattern":"","hidden":false,"id":"text724990059","max":0,"min":0,"name":"title","pattern":"","presentable":false,"primaryKey":false,"required":true,"system":false,"type":"text"}]', 'pbc_1125843985', '[]', NULL, 'posts', '{}', false, 'base', NULL, '2026-02-17 05:14:09.121Z', NULL)
+[7.00ms] CREATE TABLE "posts" ("id" TEXT PRIMARY KEY DEFAULT ('r'||substring(md5(random()::text) from 1 for 14)) NOT NULL, "title" TEXT DEFAULT '' NOT NULL)
+[0.00ms] SELECT `_collections`.* FROM "_collections" WHERE "type"='view' ORDER BY "created" ASC
+[0.00ms] SELECT `_collections`.* FROM "_collections" ORDER BY "created" ASC
+[1.00ms] SELECT `_collections`.* FROM "_collections" WHERE `id`='pbc_1125843985' OR LOWER(`name`)='pbc_1125843985' LIMIT 1
+[0.00ms] INSERT INTO "_migrations" ("applied", "file") VALUES (1771305249138460, '1771305249_created_posts.js')
+INFO POST /api/collections
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+[1.00ms] INSERT INTO "posts" ("id", "title") VALUES ('6gh4nniizzycldk', 'Clean Test')
+INFO POST /api/collections/posts/records
+[0.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+ERROR GET /api/collections/posts/records?sort=-created
+└─ Something went wrong while processing your request.
+   └─ invalid sort field "created"
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "email"='admin@example.com' LIMIT 1
+[1.00ms] SELECT "_authOrigins".* FROM "_authOrigins" WHERE "collectionRef"='pbc_3142635823' AND "recordRef"='bmz6qulk542bz75' ORDER BY "created" DESC
+[1.00ms] SELECT `_collections`.* FROM "_collections" WHERE "id"='pbc_3142635823'
+[0.00ms] SELECT (1) FROM "_superusers" WHERE "id"='bmz6qulk542bz75' LIMIT 1
+[38.00ms] UPDATE "_authOrigins" SET "collectionRef"='pbc_3142635823', "created"='2026-02-17 04:19:30.307Z', "fingerprint"='a6b62a78efce5f751c7de7b861fe9d97', "id"='z4ib0h76u4vnvjp', "recordRef"='bmz6qulk542bz75', "updated"='2026-02-17 05:15:10.388Z' WHERE "id"='z4ib0h76u4vnvjp'
+INFO POST /api/collections/_superusers/auth-with-password
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+INFO GET /api/collections/posts
+[0.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+[1.00ms] SELECT `_collections`.* FROM "_collections" WHERE `id`='pbc_1125843985' OR LOWER(`name`)='pbc_1125843985' LIMIT 1
+[1.00ms] SELECT `_collections`.* FROM "_collections" WHERE "id"<>'pbc_1125843985'
+[1.00ms] DROP TABLE IF EXISTS `posts`
+[0.00ms] SELECT `_collections`.* FROM "_collections" WHERE "type"='view' ORDER BY "created" ASC
+[0.00ms] DELETE FROM "_collections" WHERE "id"='pbc_1125843985'
+[0.00ms] SELECT `_collections`.* FROM "_collections" ORDER BY "created" ASC
+[0.00ms] SELECT `_collections`.* FROM "_collections" WHERE `id`='pbc_1125843985' OR LOWER(`name`)='pbc_1125843985' LIMIT 1
+[0.00ms] INSERT INTO "_migrations" ("applied", "file") VALUES (1771305310471650, '1771305310_deleted_posts.js')
+INFO DELETE /api/collections/posts
+[0.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+[0.00ms] SELECT (1) FROM "_collections" WHERE "id"='pbc_1125843985' LIMIT 1
+[0.00ms] SELECT (1) FROM "_collections" WHERE "id"='pbc_1125843985' LIMIT 1
+[0.00ms] SELECT "id" FROM "_collections" WHERE "id"='pbc_1125843985' LIMIT 1
+[0.00ms] SELECT count(*) FROM "_collections" WHERE (LOWER("name")='posts') AND ("id"<>'pbc_3233087073') LIMIT 1
+[0.00ms] SELECT `_collections`.* FROM "_collections" WHERE "id"='posts'
+[0.00ms] SELECT count(*) FROM "_collections" WHERE LOWER("name")='posts' LIMIT 1
+[1.00ms] SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'posts' LIMIT 1
+[1.00ms] SELECT `_collections`.* FROM "_collections" WHERE `id`='pbc_1125843985' OR LOWER(`name`)='pbc_1125843985' LIMIT 1
+[0.00ms] SELECT `_collections`.* FROM "_collections" WHERE `id`='pbc_1125843985' OR LOWER(`name`)='pbc_1125843985' LIMIT 1
+[0.00ms] INSERT INTO "_collections" ("createRule", "created", "deleteRule", "fields", "id", "indexes", "listRule", "name", "options", "system", "type", "updateRule", "updated", "viewRule") VALUES (NULL, '2026-02-17 05:15:10.477Z', NULL, '[{"autogeneratePattern":"[a-z0-9]{15}","hidden":false,"id":"text3208210256","max":15,"min":15,"name":"id","pattern":"^[a-z0-9]+$","presentable":false,"primaryKey":true,"required":true,"system":true,"type":"text"},{"autogeneratePattern":"","hidden":false,"id":"text724990059","max":0,"min":0,"name":"title","pattern":"","presentable":false,"primaryKey":false,"required":true,"system":false,"type":"text"},{"hidden":false,"id":"autodate2990389176","name":"created","onCreate":true,"onUpdate":false,"presentable":false,"system":false,"type":"autodate"},{"hidden":false,"id":"autodate3332085495","name":"updated","onCreate":true,"onUpdate":true,"presentable":false,"system":false,"type":"autodate"}]', 'pbc_1125843985', '[]', NULL, 'posts', '{}', false, 'base', NULL, '2026-02-17 05:15:10.477Z', NULL)
+[6.00ms] CREATE TABLE "posts" ("created" TEXT DEFAULT '' NOT NULL, "id" TEXT PRIMARY KEY DEFAULT ('r'||substring(md5(random()::text) from 1 for 14)) NOT NULL, "title" TEXT DEFAULT '' NOT NULL, "updated" TEXT DEFAULT '' NOT NULL)
+[0.00ms] SELECT `_collections`.* FROM "_collections" WHERE "type"='view' ORDER BY "created" ASC
+[1.00ms] SELECT `_collections`.* FROM "_collections" ORDER BY "created" ASC
+[1.00ms] SELECT `_collections`.* FROM "_collections" WHERE `id`='pbc_1125843985' OR LOWER(`name`)='pbc_1125843985' LIMIT 1
+[0.00ms] INSERT INTO "_migrations" ("applied", "file") VALUES (1771305310498758, '1771305310_created_posts.js')
+INFO POST /api/collections
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+[3.00ms] INSERT INTO "posts" ("created", "id", "title", "updated") VALUES ('2026-02-17 05:15:10.507Z', 'b7h5s8sohj94km8', 'Clean Test', '2026-02-17 05:15:10.507Z')
+INFO POST /api/collections/posts/records
+[0.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+[0.00ms] SELECT "posts".* FROM "posts" ORDER BY `posts`.`created` DESC LIMIT 30
+[1.00ms] SELECT COUNT(DISTINCT `posts`.`id`) FROM "posts"
+INFO GET /api/collections/posts/records?sort=-created
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "email"='admin@example.com' LIMIT 1
+[1.00ms] SELECT "_authOrigins".* FROM "_authOrigins" WHERE "collectionRef"='pbc_3142635823' AND "recordRef"='bmz6qulk542bz75' ORDER BY "created" DESC
+[0.00ms] SELECT `_collections`.* FROM "_collections" WHERE "id"='pbc_3142635823'
+[1.00ms] SELECT (1) FROM "_superusers" WHERE "id"='bmz6qulk542bz75' LIMIT 1
+[3.00ms] UPDATE "_authOrigins" SET "collectionRef"='pbc_3142635823', "created"='2026-02-17 04:19:30.307Z', "fingerprint"='a6b62a78efce5f751c7de7b861fe9d97', "id"='z4ib0h76u4vnvjp', "recordRef"='bmz6qulk542bz75', "updated"='2026-02-17 05:15:31.202Z' WHERE "id"='z4ib0h76u4vnvjp'
+INFO POST /api/collections/_superusers/auth-with-password
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+INFO GET /api/collections/posts
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+[1.00ms] SELECT `_collections`.* FROM "_collections" WHERE `id`='pbc_1125843985' OR LOWER(`name`)='pbc_1125843985' LIMIT 1
+[0.00ms] SELECT `_collections`.* FROM "_collections" WHERE "id"<>'pbc_1125843985'
+[1.00ms] DROP TABLE IF EXISTS `posts`
+[0.00ms] SELECT `_collections`.* FROM "_collections" WHERE "type"='view' ORDER BY "created" ASC
+[0.00ms] DELETE FROM "_collections" WHERE "id"='pbc_1125843985'
+[0.00ms] SELECT `_collections`.* FROM "_collections" ORDER BY "created" ASC
+[1.00ms] SELECT `_collections`.* FROM "_collections" WHERE `id`='pbc_1125843985' OR LOWER(`name`)='pbc_1125843985' LIMIT 1
+[0.00ms] INSERT INTO "_migrations" ("applied", "file") VALUES (1771305331245454, '1771305331_deleted_posts.js')
+INFO DELETE /api/collections/posts
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+[1.00ms] SELECT (1) FROM "_collections" WHERE "id"='pbc_1125843985' LIMIT 1
+[0.00ms] SELECT (1) FROM "_collections" WHERE "id"='pbc_1125843985' LIMIT 1
+[1.00ms] SELECT "id" FROM "_collections" WHERE "id"='pbc_1125843985' LIMIT 1
+[0.00ms] SELECT count(*) FROM "_collections" WHERE (LOWER("name")='posts') AND ("id"<>'pbc_3233087073') LIMIT 1
+[1.00ms] SELECT `_collections`.* FROM "_collections" WHERE "id"='posts'
+[0.00ms] SELECT count(*) FROM "_collections" WHERE LOWER("name")='posts' LIMIT 1
+[2.00ms] SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'posts' LIMIT 1
+[0.00ms] INSERT INTO "_collections" ("createRule", "created", "deleteRule", "fields", "id", "indexes", "listRule", "name", "options", "system", "type", "updateRule", "updated", "viewRule") VALUES (NULL, '2026-02-17 05:15:31.253Z', NULL, '[{"autogeneratePattern":"[a-z0-9]{15}","hidden":false,"id":"text3208210256","max":15,"min":15,"name":"id","pattern":"^[a-z0-9]+$","presentable":false,"primaryKey":true,"required":true,"system":true,"type":"text"},{"autogeneratePattern":"","hidden":false,"id":"text724990059","max":0,"min":0,"name":"title","pattern":"","presentable":false,"primaryKey":false,"required":true,"system":false,"type":"text"}]', 'pbc_1125843985', '[]', NULL, 'posts', '{}', false, 'base', NULL, '2026-02-17 05:15:31.253Z', NULL)
+[5.00ms] CREATE TABLE "posts" ("id" TEXT PRIMARY KEY DEFAULT ('r'||substring(md5(random()::text) from 1 for 14)) NOT NULL, "title" TEXT DEFAULT '' NOT NULL)
+[1.00ms] SELECT `_collections`.* FROM "_collections" WHERE "type"='view' ORDER BY "created" ASC
+[1.00ms] SELECT `_collections`.* FROM "_collections" ORDER BY "created" ASC
+[1.00ms] SELECT `_collections`.* FROM "_collections" WHERE `id`='pbc_1125843985' OR LOWER(`name`)='pbc_1125843985' LIMIT 1
+[0.00ms] INSERT INTO "_migrations" ("applied", "file") VALUES (1771305331273246, '1771305331_created_posts.js')
+INFO POST /api/collections
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+[2.00ms] INSERT INTO "posts" ("id", "title") VALUES ('69exiad8l8ovv6b', 'Clean Test')
+INFO POST /api/collections/posts/records
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+ERROR GET /api/collections/posts/records?sort=-created
+└─ Something went wrong while processing your request.
+   └─ invalid sort field "created"
+exit status 1

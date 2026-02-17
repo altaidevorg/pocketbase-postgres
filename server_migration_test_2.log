@@ -1,0 +1,105 @@
+[12.00ms] CREATE TABLE IF NOT EXISTS `_migrations` (file VARCHAR(255) PRIMARY KEY NOT NULL, applied BIGINT NOT NULL)
+[1.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1640988000_aux_init.go' LIMIT 1
+[0.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1640988000_init.go' LIMIT 1
+[0.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1717233556_v0.23_migrate.go' LIMIT 1
+[0.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1717233557_v0.23_migrate2.go' LIMIT 1
+[0.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1717233558_v0.23_migrate3.go' LIMIT 1
+[0.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1717233559_v0.23_migrate4.go' LIMIT 1
+[0.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1763020353_update_default_auth_alert_templates.go' LIMIT 1
+[8.00ms] SELECT `_collections`.* FROM "_collections" ORDER BY "created" ASC
+[0.00ms] SELECT `_params`.* FROM "_params" WHERE "id"='settings'
+[0.00ms] SELECT `_collections`.* FROM "_collections" ORDER BY "created" ASC
+[0.00ms] CREATE TABLE IF NOT EXISTS `_migrations` (file VARCHAR(255) PRIMARY KEY NOT NULL, applied BIGINT NOT NULL)
+[0.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1640988000_aux_init.go' LIMIT 1
+[0.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1640988000_init.go' LIMIT 1
+[0.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1717233556_v0.23_migrate.go' LIMIT 1
+[0.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1717233557_v0.23_migrate2.go' LIMIT 1
+[0.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1717233558_v0.23_migrate3.go' LIMIT 1
+[0.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1717233559_v0.23_migrate4.go' LIMIT 1
+[0.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1717233560_fix_missing_fields.go' LIMIT 1
+[0.00ms] SELECT `_collections`.* FROM "_collections" ORDER BY "created" ASC
+[1.00ms] SELECT `_collections`.* FROM "_collections" WHERE "id"='pbc_1125843985'
+[0.00ms] SELECT count(*) FROM "_collections" WHERE (LOWER("name")='posts') AND ("id"<>'pbc_1125843985') LIMIT 1
+[0.00ms] SELECT `_collections`.* FROM "_collections" WHERE "id"='posts'
+[0.00ms] SELECT `_collections`.* FROM "_collections" WHERE `id`='pbc_1125843985' OR LOWER(`name`)='pbc_1125843985' LIMIT 1
+[0.00ms] SELECT `_collections`.* FROM "_collections" WHERE `id`='pbc_1125843985' OR LOWER(`name`)='pbc_1125843985' LIMIT 1
+[0.00ms] UPDATE "_collections" SET "createRule"=NULL, "created"='2026-02-17 05:15:31.253Z', "deleteRule"=NULL, "fields"='[{"autogeneratePattern":"[a-z0-9]{15}","hidden":false,"id":"text3208210256","max":15,"min":15,"name":"id","pattern":"^[a-z0-9]+$","presentable":false,"primaryKey":true,"required":true,"system":true,"type":"text"},{"autogeneratePattern":"","hidden":false,"id":"text724990059","max":0,"min":0,"name":"title","pattern":"","presentable":false,"primaryKey":false,"required":true,"system":false,"type":"text"},{"hidden":false,"id":"autodate2990389176","name":"created","onCreate":true,"onUpdate":false,"presentable":false,"system":false,"type":"autodate"},{"hidden":false,"id":"autodate3332085495","name":"updated","onCreate":true,"onUpdate":true,"presentable":false,"system":false,"type":"autodate"}]', "id"='pbc_1125843985', "indexes"='[]', "listRule"=NULL, "name"='posts', "options"='{}', "system"=false, "type"='base', "updateRule"=NULL, "updated"='2026-02-17 05:20:05.570Z', "viewRule"=NULL WHERE "id"='pbc_1125843985'
+[1.00ms] SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'posts' LIMIT 1
+[0.00ms] ALTER TABLE "posts" ADD "createdq5FQQ" TEXT DEFAULT '' NOT NULL
+[1.00ms] ALTER TABLE "posts" ADD "updatedwDAxg" TEXT DEFAULT '' NOT NULL
+[0.00ms] ALTER TABLE "posts" RENAME COLUMN "updatedwDAxg" TO "updated"
+[0.00ms] ALTER TABLE "posts" RENAME COLUMN "createdq5FQQ" TO "created"
+[0.00ms] SELECT `_collections`.* FROM "_collections" WHERE "type"='view' ORDER BY "created" ASC
+[0.00ms] SELECT `_collections`.* FROM "_collections" ORDER BY "created" ASC
+[0.00ms] INSERT INTO "_migrations" ("applied", "file") VALUES (1771305605582590, '1717233560_fix_missing_fields.go')
+[0.00ms] SELECT (1) FROM "_migrations" WHERE "file"='1763020353_update_default_auth_alert_templates.go' LIMIT 1
+2026/02/17 08:20:05 Server started at http://127.0.0.1:8090
+├─ REST API:  http://127.0.0.1:8090/api/
+└─ Dashboard: http://127.0.0.1:8090/_/
+[0.00ms] SELECT count(*) FROM "_superusers" WHERE NOT ("email"='__pbinstaller@example.com')
+[2.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "email"='admin@example.com' LIMIT 1
+[1.00ms] SELECT "_authOrigins".* FROM "_authOrigins" WHERE "collectionRef"='pbc_3142635823' AND "recordRef"='bmz6qulk542bz75' ORDER BY "created" DESC
+[1.00ms] SELECT `_collections`.* FROM "_collections" WHERE "id"='pbc_3142635823'
+[1.00ms] SELECT (1) FROM "_superusers" WHERE "id"='bmz6qulk542bz75' LIMIT 1
+[5.00ms] UPDATE "_authOrigins" SET "collectionRef"='pbc_3142635823', "created"='2026-02-17 04:19:30.307Z', "fingerprint"='a6b62a78efce5f751c7de7b861fe9d97', "id"='z4ib0h76u4vnvjp', "recordRef"='bmz6qulk542bz75', "updated"='2026-02-17 05:20:12.817Z' WHERE "id"='z4ib0h76u4vnvjp'
+INFO POST /api/collections/_superusers/auth-with-password
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+[0.00ms] SELECT "posts".* FROM "posts" ORDER BY `posts`.`created` DESC LIMIT 30
+[11.00ms] SELECT COUNT(DISTINCT `posts`.`id`) FROM "posts"
+INFO GET /api/collections/posts/records?page=1&perPage=30&sort=-created
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+[0.00ms] SELECT "posts".* FROM "posts" ORDER BY `posts`.`updated` DESC LIMIT 30
+[0.00ms] SELECT COUNT(DISTINCT `posts`.`id`) FROM "posts"
+INFO GET /api/collections/posts/records?page=1&perPage=30&sort=-updated
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='bmz6qulk542bz75' LIMIT 1
+[0.00ms] SELECT "posts".* FROM "posts" ORDER BY `posts`.`id` ASC LIMIT 30
+[0.00ms] SELECT COUNT(DISTINCT `posts`.`id`) FROM "posts"
+INFO GET /api/collections/posts/records?page=1&perPage=30&sort=id
+[2.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+INFO POST /api/collections/_superusers/auth-refresh
+[0.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+INFO GET /api/settings
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+INFO GET /api/collections/meta/scaffolds
+[2.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+[0.00ms] SELECT `_collections`.* FROM "_collections" LIMIT 1000
+INFO GET /api/collections?page=1&perPage=1000&skipTotal=1
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+INFO GET /api/settings
+[1.00ms] SELECT "posts".* FROM "posts" ORDER BY `posts`.`_rowid_` DESC LIMIT 40
+ERROR GET /api/collections/pbc_1125843985/records?page=1&perPage=40&sort=-@rowid&skipTotal=1&filter=&expand=&fields=
+└─ Something went wrong while processing your request.
+   └─ pq: column posts._rowid_ does not exist at column 40 (42703); failed query: SELECT "posts".* FROM "posts" ORDER BY [[posts]].[[_rowid_]] DESC LIMIT 40
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+[1.00ms] SELECT "posts".* FROM "posts" LIMIT 1
+[1.00ms] SELECT COUNT(DISTINCT `posts`.`id`) FROM "posts"
+INFO GET /api/collections/pbc_1125843985/records?page=1&perPage=1&filter=&fields=id
+[4.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+[3.00ms] INSERT INTO "posts" ("created", "id", "title", "updated") VALUES ('2026-02-17 05:21:45.772Z', 'i1agvb2i7nuqz2u', 'hello', '2026-02-17 05:21:45.772Z')
+INFO POST /api/collections/pbc_1125843985/records
+[3.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+[0.00ms] SELECT "posts".* FROM "posts" ORDER BY `posts`.`_rowid_` DESC LIMIT 40
+ERROR GET /api/collections/pbc_1125843985/records?page=1&perPage=40&sort=-@rowid&skipTotal=1&filter=&expand=&fields=
+└─ Something went wrong while processing your request.
+   └─ pq: column posts._rowid_ does not exist at column 40 (42703); failed query: SELECT "posts".* FROM "posts" ORDER BY [[posts]].[[_rowid_]] DESC LIMIT 40
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+INFO POST /api/collections/_superusers/auth-refresh
+[4.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+[4.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+INFO GET /api/settings
+[2.00ms] SELECT `_collections`.* FROM "_collections" LIMIT 1000
+INFO GET /api/collections?page=1&perPage=1000&skipTotal=1
+[27.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+[25.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+INFO GET /api/settings
+INFO GET /api/collections/meta/scaffolds
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+[0.00ms] SELECT "posts".* FROM "posts" LIMIT 1
+[0.00ms] SELECT COUNT(DISTINCT `posts`.`id`) FROM "posts"
+[0.00ms] SELECT "posts".* FROM "posts" ORDER BY `posts`.`_rowid_` DESC LIMIT 40
+INFO GET /api/collections/pbc_1125843985/records?page=1&perPage=1&filter=&fields=id
+ERROR GET /api/collections/pbc_1125843985/records?page=1&perPage=40&sort=-@rowid&skipTotal=1&filter=&expand=&fields=
+└─ Something went wrong while processing your request.
+   └─ pq: column posts._rowid_ does not exist at column 40 (42703); failed query: SELECT "posts".* FROM "posts" ORDER BY [[posts]].[[_rowid_]] DESC LIMIT 40

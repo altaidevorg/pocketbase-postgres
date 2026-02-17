@@ -1,0 +1,3 @@
+# github.com/pocketbase/pocketbase/migrations
+migrations\1717233560_fix_missing_fields.go:5:2: "strings" imported and not used
+migrations\1717233560_fix_missing_fields.go:8:2: "github.com/pocketbase/pocketbase/tools/types" imported and not used
