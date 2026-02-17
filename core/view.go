@@ -182,7 +182,7 @@ func (app *BaseApp) FindRecordByViewFile(viewCollectionModelOrIdentifier any, fi
 		query.AndWhere(dbx.HashExp{cleanFieldName: filename})
 	} else {
 		query.InnerJoin(
-			fmt.Sprintf(`%s as {{_je_file}}`, dbutils.JSONEach(cleanFieldName)),
+			fmt.Sprintf(`%s as {{_je_file}}`, dbutils.JSONEach(getDriverName(app.DB()), cleanFieldName)),
 			dbx.HashExp{"_je_file.value": filename},
 		)
 	}

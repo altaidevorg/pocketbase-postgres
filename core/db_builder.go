@@ -1,6 +1,7 @@
 package core
 
 import (
+	"os"
 	"strings"
 	"unicode"
 	"unicode/utf8"
@@ -14,6 +15,11 @@ var _ dbx.Builder = (*dualDBBuilder)(nil)
 type dualDBBuilder struct {
 	concurrentDB    dbx.Builder
 	nonconcurrentDB dbx.Builder
+}
+
+// DriverName returns the driver name of the underlying db connection.
+func (b *dualDBBuilder) DriverName() string {
+	return getDriverName(b.concurrentDB)
 }
 
 // Select implements the [dbx.Builder.Select] interface method.
@@ -33,17 +39,17 @@ func (b *dualDBBuilder) GeneratePlaceholder(i int) string {
 
 // Quote implements the [dbx.Builder.Quote] interface method.
 func (b *dualDBBuilder) Quote(str string) string {
-	return b.concurrentDB.Quote(str)
+	return strings.ReplaceAll(b.concurrentDB.Quote(str), "`", "\"")
 }
 
 // QuoteSimpleTableName implements the [dbx.Builder.QuoteSimpleTableName] interface method.
 func (b *dualDBBuilder) QuoteSimpleTableName(table string) string {
-	return b.concurrentDB.QuoteSimpleTableName(table)
+	return strings.ReplaceAll(b.concurrentDB.QuoteSimpleTableName(table), "`", "\"")
 }
 
 // QuoteSimpleColumnName implements the [dbx.Builder.QuoteSimpleColumnName] interface method.
 func (b *dualDBBuilder) QuoteSimpleColumnName(col string) string {
-	return b.concurrentDB.QuoteSimpleColumnName(col)
+	return strings.ReplaceAll(b.concurrentDB.QuoteSimpleColumnName(col), "`", "\"")
 }
 
 // QueryBuilder implements the [dbx.Builder.QueryBuilder] interface method.
@@ -184,4 +190,39 @@ func hasPrefixFold(str, prefix string) bool {
 	}
 
 	return strings.EqualFold(str[:len(prefix)], prefix)
+}
+
+// GetDBDriverName returns the driver name of the app's db.
+func GetDBDriverName(app App) string {
+	if val := os.Getenv("PB_DB_CONNECT"); val != "" {
+		if strings.HasPrefix(val, "postgres://") {
+			return "postgres"
+		}
+	}
+	
+	if baseApp, ok := app.(*BaseApp); ok && baseApp.isPostgres {
+		return "postgres"
+	}
+
+	return getDriverName(app.DB())
+}
+
+// getDriverName blindly tries to assert the builder to *dbx.DB or *dualDBBuilder
+// and returns the driver name characters.
+//
+// Returns "sqlite" if the builder is not one of the supported types.
+func getDriverName(b dbx.Builder) string {
+	if b == nil {
+		return "sqlite"
+	}
+
+	if db, ok := b.(*dbx.DB); ok {
+		return db.DriverName()
+	}
+
+	if db, ok := b.(*dualDBBuilder); ok {
+		return db.DriverName()
+	}
+
+	return "sqlite"
 }

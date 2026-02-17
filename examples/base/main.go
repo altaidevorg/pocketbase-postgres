@@ -10,7 +10,7 @@ import (
 	"github.com/pocketbase/pocketbase/apis"
 	"github.com/pocketbase/pocketbase/core"
 	"github.com/pocketbase/pocketbase/plugins/ghupdate"
-	"github.com/pocketbase/pocketbase/plugins/jsvm"
+	// "github.com/pocketbase/pocketbase/plugins/jsvm"
 	"github.com/pocketbase/pocketbase/plugins/migratecmd"
 	"github.com/pocketbase/pocketbase/tools/hook"
 	"github.com/pocketbase/pocketbase/tools/osutils"
@@ -86,12 +86,12 @@ func main() {
 	// ---------------------------------------------------------------
 
 	// load jsvm (pb_hooks and pb_migrations)
-	jsvm.MustRegister(app, jsvm.Config{
-		MigrationsDir: migrationsDir,
-		HooksDir:      hooksDir,
-		HooksWatch:    hooksWatch,
-		HooksPoolSize: hooksPool,
-	})
+	// jsvm.MustRegister(app, jsvm.Config{
+	// 	MigrationsDir: migrationsDir,
+	// 	HooksDir:      hooksDir,
+	// 	HooksWatch:    hooksWatch,
+	// 	HooksPoolSize: hooksPool,
+	// })
 
 	// migrate command (with js templates)
 	migratecmd.MustRegister(app, app.RootCmd, migratecmd.Config{

@@ -160,6 +160,9 @@ func (f *TextField) ColumnType(app App) string {
 		// note: the default is just a last resort fallback to avoid empty
 		// string values in case the record was inserted with raw sql and
 		// it is not actually used when operating with the db abstraction
+		if GetDBDriverName(app) == "postgres" {
+			return "TEXT PRIMARY KEY DEFAULT ('r'||substring(md5(random()::text) from 1 for 14)) NOT NULL"
+		}
 		return "TEXT PRIMARY KEY DEFAULT ('r'||lower(hex(randomblob(7)))) NOT NULL"
 	}
 
@@ -202,10 +205,12 @@ func (f *TextField) ValidateValue(ctx context.Context, app App, record *Record) 
 				err := app.ConcurrentDB().
 					Select("(1)").
 					From(record.TableName()).
-					Where(dbx.NewExp("id = {:id} COLLATE NOCASE", dbx.Params{"id": newVal})).
+					Where(dbx.NewExp("LOWER([[id]]) = LOWER({:id})", dbx.Params{"id": newVal})).
 					Limit(1).
 					Row(&exists)
+				
 				if exists > 0 || (err != nil && !errors.Is(err, sql.ErrNoRows)) {
+					fmt.Printf("DEBUG: ValidateValue failed for %s. exists=%d, err=%v, newVal=%s\n", f.Name, exists, err, newVal)
 					return validation.NewError("validation_pk_invalid", "The record primary key is invalid or already exists.")
 				}
 			}

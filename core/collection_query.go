@@ -38,8 +38,9 @@ func (app *BaseApp) FindAllCollections(collectionTypes ...string) ([]*Collection
 		q.AndWhere(dbx.In("type", list.ToInterfaceSlice(types)...))
 	}
 
-	err := q.OrderBy("rowid ASC").All(&collections)
+	err := q.OrderBy("created ASC").All(&collections)
 	if err != nil {
+		fmt.Printf("DEBUG: FindAllCollections error: %v\n", err)
 		return nil, err
 	}
 
@@ -199,7 +200,7 @@ func (app *BaseApp) IsCollectionNameUnique(name string, excludeIds ...string) bo
 
 	query := app.CollectionQuery().
 		Select("count(*)").
-		AndWhere(dbx.NewExp("LOWER([[name]])={:name}", dbx.Params{"name": strings.ToLower(name)})).
+		AndWhere(dbx.NewExp("LOWER(\"name\")={:name}", dbx.Params{"name": strings.ToLower(name)})).
 		Limit(1)
 
 	if uniqueExcludeIds := list.NonzeroUniques(excludeIds); len(uniqueExcludeIds) > 0 {

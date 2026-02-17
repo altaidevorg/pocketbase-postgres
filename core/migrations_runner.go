@@ -248,9 +248,15 @@ func (r *MigrationsRunner) initMigrationsTable() error {
 		return nil // already inited
 	}
 
+	appliedType := "INTEGER"
+	if GetDBDriverName(r.app) == "postgres" {
+		appliedType = "BIGINT"
+	}
+
 	rawQuery := fmt.Sprintf(
-		"CREATE TABLE IF NOT EXISTS {{%s}} (file VARCHAR(255) PRIMARY KEY NOT NULL, applied INTEGER NOT NULL)",
+		"CREATE TABLE IF NOT EXISTS {{%s}} (file VARCHAR(255) PRIMARY KEY NOT NULL, applied %s NOT NULL)",
 		r.tableName,
+		appliedType,
 	)
 
 	_, err := r.app.DB().NewQuery(rawQuery).Execute()
