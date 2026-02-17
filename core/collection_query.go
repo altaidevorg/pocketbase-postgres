@@ -40,7 +40,6 @@ func (app *BaseApp) FindAllCollections(collectionTypes ...string) ([]*Collection
 
 	err := q.OrderBy("created ASC").All(&collections)
 	if err != nil {
-		fmt.Printf("DEBUG: FindAllCollections error: %v\n", err)
 		return nil, err
 	}
 

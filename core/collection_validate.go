@@ -577,7 +577,7 @@ func (cv *collectionValidator) checkIndexes(value any) error {
 				Row(&usedTblName)
 			
 			if err != nil && !errors.Is(err, sql.ErrNoRows) {
-				fmt.Printf("DEBUG: checkIndexes Postgres query failed: %v\n", err)
+				// fmt.Printf("DEBUG: checkIndexes Postgres query failed: %v\n", err)
 			}
 		} else {
 			_ = cv.app.ConcurrentDB().Select("tbl_name").

@@ -42,8 +42,11 @@ type App interface {
 	// (aka. whether Bootstrap() was called).
 	IsBootstrapped() bool
 
-	// IsTransactional checks if the current app instance is part of a transaction.
+	// IsTransactional returns true if the current app instance represents a transaction.
 	IsTransactional() bool
+
+	// IsPostgres returns true if the app is connected to a Postgres database.
+	IsPostgres() bool
 
 	// TxInfo returns the transaction associated with the current app instance (if any).
 	//

@@ -158,7 +158,6 @@ func (app *BaseApp) AuxHasTable(tableName string) bool {
 }
 
 func (app *BaseApp) hasTable(db dbx.Builder, tableName string, isPostgres bool) bool {
-	fmt.Printf("DEBUG: hasTable table=%s isPostgres=%v\n", tableName, isPostgres)
 	var exists int
 
 	if isPostgres {

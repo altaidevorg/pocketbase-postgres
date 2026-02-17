@@ -379,6 +379,11 @@ func (app *BaseApp) IsTransactional() bool {
 	return app.TxInfo() != nil
 }
 
+// IsPostgres returns true if the app is connected to a Postgres database.
+func (app *BaseApp) IsPostgres() bool {
+	return app.isPostgres
+}
+
 // IsBootstrapped checks if the application was initialized
 // (aka. whether Bootstrap() was called).
 func (app *BaseApp) IsBootstrapped() bool {

@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"errors"
 	"strings"
-	"fmt"
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/pocketbase/dbx"
@@ -33,7 +32,6 @@ func UniqueId(db dbx.Builder, tableName string) validation.RuleFunc {
 
 
 		if (err != nil && !errors.Is(err, sql.ErrNoRows)) || foundId != "" {
-			fmt.Printf("DEBUG: UniqueId failed for table=%s, id=%s. foundId=%s, err=%v\n", tableName, v, foundId, err)
 			return validation.NewError("validation_invalid_or_existing_id", "The model id is invalid or already exists.")
 		}
 

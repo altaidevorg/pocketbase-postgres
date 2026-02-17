@@ -767,7 +767,7 @@ func (c *Collection) updateGeneratedIdIfExists(app App) {
 		var exists int
 		err := app.CollectionQuery().Select("(1)").AndWhere(dbx.NewExp("\"id\"={:id}", dbx.Params{"id": newId})).Limit(1).Row(&exists)
 		if err != nil && !errors.Is(err, sql.ErrNoRows) {
-			fmt.Printf("DEBUG: updateGeneratedIdIfExists query failed: %v\n", err)
+			// fmt.Printf("DEBUG: updateGeneratedIdIfExists query failed: %v\n", err)
 		}
 		if exists == 0 {
 			break

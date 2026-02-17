@@ -39,12 +39,9 @@ func (app *BaseApp) SyncRecordTableSchema(newCollection *Collection, oldCollecti
 			}
 
 			// create table
-			fmt.Printf("DEBUG: Sync CreateTable start table=%s\n", tableName)
 			if _, err := txApp.DB().CreateTable(tableName, cols).Execute(); err != nil {
-				fmt.Printf("DEBUG: Sync CreateTable failed: %v\n", err)
 				return err
 			}
-			fmt.Println("DEBUG: Sync CreateTable success")
 
 			return createCollectionIndexes(txApp, newCollection)
 		}
@@ -366,16 +363,13 @@ func createCollectionIndexes(app App, collection *Collection) error {
 			}
 
 			sql := parsed.Build()
-			fmt.Printf("DEBUG: createIndex %s SQL: %s\n", parsed.IndexName, sql)
 			if _, err := txApp.DB().NewQuery(sql).Execute(); err != nil {
-				fmt.Printf("DEBUG: createIndex failed: %v\n", err)
 				errs[strconv.Itoa(i)] = validation.NewError(
 					"validation_invalid_index_expression",
 					fmt.Sprintf("Failed to create index %s - %v.", parsed.IndexName, err.Error()),
 				)
 				continue
 			}
-			fmt.Println("DEBUG: createIndex success")
 		}
 
 		if len(errs) > 0 {
