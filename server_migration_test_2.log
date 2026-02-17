@@ -103,3 +103,36 @@ INFO GET /api/collections/pbc_1125843985/records?page=1&perPage=1&filter=&fields
 ERROR GET /api/collections/pbc_1125843985/records?page=1&perPage=40&sort=-@rowid&skipTotal=1&filter=&expand=&fields=
 └─ Something went wrong while processing your request.
    └─ pq: column posts._rowid_ does not exist at column 40 (42703); failed query: SELECT "posts".* FROM "posts" ORDER BY [[posts]].[[_rowid_]] DESC LIMIT 40
+[17.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+INFO POST /api/collections/_superusers/auth-refresh
+[16.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+INFO GET /api/settings
+[0.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+INFO GET /api/collections/meta/scaffolds
+[0.00ms] SELECT `_collections`.* FROM "_collections" LIMIT 1000
+INFO GET /api/collections?page=1&perPage=1000&skipTotal=1
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+INFO GET /api/settings
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+[0.00ms] SELECT "users".* FROM "users" ORDER BY `users`.`created` DESC LIMIT 40
+INFO GET /api/collections/_pb_users_auth_/records?page=1&perPage=40&sort=-created&skipTotal=1&filter=&expand=&fields=
+[0.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+[1.00ms] SELECT "users".* FROM "users" LIMIT 1
+[1.00ms] SELECT COUNT(DISTINCT `users`.`id`) FROM "users"
+INFO GET /api/collections/_pb_users_auth_/records?page=1&perPage=1&filter=&fields=id
+[2.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+[2.00ms] SELECT "posts".* FROM "posts" LIMIT 1
+[4.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+[0.00ms] SELECT "posts".* FROM "posts" ORDER BY `posts`.`_rowid_` DESC LIMIT 40
+ERROR GET /api/collections/pbc_1125843985/records?page=1&perPage=40&sort=-@rowid&skipTotal=1&filter=&expand=&fields=
+└─ Something went wrong while processing your request.
+   └─ pq: column posts._rowid_ does not exist at column 40 (42703); failed query: SELECT "posts".* FROM "posts" ORDER BY [[posts]].[[_rowid_]] DESC LIMIT 40
+[17.00ms] SELECT COUNT(DISTINCT `posts`.`id`) FROM "posts"
+INFO GET /api/collections/pbc_1125843985/records?page=1&perPage=1&filter=&fields=id
+[49.00ms] SELECT `_collections`.* FROM "_collections" WHERE "type"='auth' ORDER BY "created" ASC
+[50.00ms] SELECT `_collections`.* FROM "_collections" WHERE "type"='auth' ORDER BY "created" ASC
+[7.00ms] SELECT "_otps".* FROM "_otps" WHERE ("collectionRef"='pbc_3142635823') AND (`created` < '2026-02-17 05:57:00.050Z')
+[6.00ms] SELECT "_mfas".* FROM "_mfas" WHERE ("collectionRef"='pbc_3142635823') AND (`created` < '2026-02-17 05:30:00.052Z')
+[3.00ms] SELECT "_otps".* FROM "_otps" WHERE ("collectionRef"='_pb_users_auth_') AND (`created` < '2026-02-17 05:57:00.059Z')
+[4.00ms] SELECT "_mfas".* FROM "_mfas" WHERE ("collectionRef"='_pb_users_auth_') AND (`created` < '2026-02-17 05:30:00.060Z')

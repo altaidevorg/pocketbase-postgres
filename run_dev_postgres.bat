@@ -5,7 +5,7 @@ set PB_DBlocalhost:8090/PB_DBlocalhost_CONNECT=postgres://user:pass@localhost:54
 REM Run the PocketBase app in dev mode using go run (compiles and runs the latest code)
 echo Starting PocketBase with Postgres in DEV mode...
 go run examples/base/main.go serve --http=127.0.0.1:8091 --dev
-
+#examples\base\base serve --http=127.0.0.1:8091 --dev
 REM Pause so the window stays open if there is an error
 if %ERRORLEVEL% NEQ 0 (
     echo.
