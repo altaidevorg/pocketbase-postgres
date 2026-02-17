@@ -38,8 +38,15 @@ type LogsStatsItem struct {
 func (app *BaseApp) LogsStats(expr dbx.Expression) ([]*LogsStatsItem, error) {
 	result := []*LogsStatsItem{}
 
+	var dateExpr string
+	if app.IsPostgres() {
+		dateExpr = "to_char(created::timestamp, 'YYYY-MM-DD HH24:00:00')"
+	} else {
+		dateExpr = "strftime('%Y-%m-%d %H:00:00', created)"
+	}
+
 	query := app.LogQuery().
-		Select("count(id) as total", "strftime('%Y-%m-%d %H:00:00', created) as date").
+		Select("count(id) as total", dateExpr+" as date").
 		GroupBy("date")
 
 	if expr != nil {

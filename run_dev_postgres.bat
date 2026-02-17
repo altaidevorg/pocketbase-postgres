@@ -1,6 +1,6 @@
 @echo off
 REM Set the Postgres connection string
-set PB_DBlocalhost:8090/PB_DBlocalhost_CONNECT=postgres://user:pass@localhost:5432/db?sslmode=disable
+set PB_DB_CONNECT=postgres://user:pass@localhost:5432/db?sslmode=disable
 
 REM Run the PocketBase app in dev mode using go run (compiles and runs the latest code)
 echo Starting PocketBase with Postgres in DEV mode...

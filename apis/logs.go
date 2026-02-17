@@ -2,6 +2,7 @@ package apis
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/pocketbase/dbx"
 	"github.com/pocketbase/pocketbase/core"
@@ -23,11 +24,16 @@ var logFilterFields = []string{
 }
 
 func logsList(e *core.RequestEvent) error {
-	fieldResolver := search.NewSimpleFieldResolver(logFilterFields...)
+	fieldResolver := search.NewSimpleFieldResolver(logFilterFields...).SetIsPostgres(e.App.IsPostgres())
+
+	// fallback to "created" sort if "@rowid" is used (usually by the Admin UI)
+	// because "@rowid" is a special SQLite column and not available in other drivers
+	params := e.Request.URL.Query()
+	params.Set("sort", strings.ReplaceAll(params.Get("sort"), "@rowid", "created"))
 
 	result, err := search.NewProvider(fieldResolver).
 		Query(e.App.AuxModelQuery(&core.Log{})).
-		ParseAndExec(e.Request.URL.Query().Encode(), &[]*core.Log{})
+		ParseAndExec(params.Encode(), &[]*core.Log{})
 
 	if err != nil {
 		return e.BadRequestError("", err)
@@ -37,7 +43,7 @@ func logsList(e *core.RequestEvent) error {
 }
 
 func logsStats(e *core.RequestEvent) error {
-	fieldResolver := search.NewSimpleFieldResolver(logFilterFields...)
+	fieldResolver := search.NewSimpleFieldResolver(logFilterFields...).SetIsPostgres(e.App.IsPostgres())
 
 	filter := e.Request.URL.Query().Get(search.FilterQueryParam)
 
