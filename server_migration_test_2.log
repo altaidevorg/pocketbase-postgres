@@ -136,3 +136,26 @@ INFO GET /api/collections/pbc_1125843985/records?page=1&perPage=1&filter=&fields
 [6.00ms] SELECT "_mfas".* FROM "_mfas" WHERE ("collectionRef"='pbc_3142635823') AND (`created` < '2026-02-17 05:30:00.052Z')
 [3.00ms] SELECT "_otps".* FROM "_otps" WHERE ("collectionRef"='_pb_users_auth_') AND (`created` < '2026-02-17 05:57:00.059Z')
 [4.00ms] SELECT "_mfas".* FROM "_mfas" WHERE ("collectionRef"='_pb_users_auth_') AND (`created` < '2026-02-17 05:30:00.060Z')
+INFO GET /api/collections/_superusers/auth-methods?fields=mfa,otp,password,oauth2
+INFO GET /api/collections/_superusers/auth-methods?fields=mfa,otp,password,oauth2
+INFO GET /api/collections/_superusers/auth-methods?fields=mfa,otp,password,oauth2
+[10.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "email"='yusufsarigoz@gmail.com' LIMIT 1
+[2.00ms] SELECT "_authOrigins".* FROM "_authOrigins" WHERE "collectionRef"='pbc_3142635823' AND "recordRef"='w1rxwxyn9sfv1n6' ORDER BY "created" DESC
+[1.00ms] SELECT `_collections`.* FROM "_collections" WHERE "id"='pbc_3142635823'
+[1.00ms] SELECT (1) FROM "_superusers" WHERE "id"='w1rxwxyn9sfv1n6' LIMIT 1
+[9.00ms] UPDATE "_authOrigins" SET "collectionRef"='pbc_3142635823', "created"='2026-02-17 03:54:15.730Z', "fingerprint"='7e97b8a64b231c2779724a19a2cce5c1', "id"='qjh4bttc4s9m7h8', "recordRef"='w1rxwxyn9sfv1n6', "updated"='2026-02-17 06:17:58.784Z' WHERE "id"='qjh4bttc4s9m7h8'
+INFO POST /api/collections/_superusers/auth-with-password
+[2.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+INFO GET /api/settings
+[3.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+INFO GET /api/collections/meta/scaffolds
+[10.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+[0.00ms] SELECT `_collections`.* FROM "_collections" LIMIT 1000
+INFO GET /api/collections?page=1&perPage=1000&skipTotal=1
+[1.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+[2.00ms] SELECT "_superusers".* FROM "_superusers" WHERE "_superusers"."id"='w1rxwxyn9sfv1n6' LIMIT 1
+[0.00ms] SELECT "users".* FROM "users" ORDER BY `users`.`created` DESC LIMIT 40
+[0.00ms] SELECT "users".* FROM "users" LIMIT 1
+INFO GET /api/collections/_pb_users_auth_/records?page=1&perPage=40&sort=-created&skipTotal=1&filter=&expand=&fields=
+[10.00ms] SELECT COUNT(DISTINCT `users`.`id`) FROM "users"
+INFO GET /api/collections/_pb_users_auth_/records?page=1&perPage=1&filter=&fields=id
