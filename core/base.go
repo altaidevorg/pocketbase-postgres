@@ -83,6 +83,8 @@ type BaseApp struct {
 	nonconcurrentDB     dbx.Builder
 	auxConcurrentDB     dbx.Builder
 	auxNonconcurrentDB  dbx.Builder
+	isPostgres          bool
+	isAuxPostgres       bool
 
 	// app event hooks
 	onBootstrap     *hook.Hook[*BootstrapEvent]
@@ -375,6 +377,11 @@ func (app *BaseApp) TxInfo() *TxAppInfo {
 // IsTransactional checks if the current app instance is part of a transaction.
 func (app *BaseApp) IsTransactional() bool {
 	return app.TxInfo() != nil
+}
+
+// IsPostgres returns true if the app is connected to a Postgres database.
+func (app *BaseApp) IsPostgres() bool {
+	return app.isPostgres
 }
 
 // IsBootstrapped checks if the application was initialized
@@ -1203,6 +1210,7 @@ func (app *BaseApp) initDataDB() error {
 
 	app.concurrentDB = concurrentDB
 	app.nonconcurrentDB = nonconcurrentDB
+	app.isPostgres = concurrentDB.DriverName() == "postgres"
 
 	return nil
 }
@@ -1254,6 +1262,7 @@ func (app *BaseApp) initAuxDB() error {
 
 	app.auxConcurrentDB = concurrentDB
 	app.auxNonconcurrentDB = nonconcurrentDB
+	app.isAuxPostgres = concurrentDB.DriverName() == "postgres"
 
 	return nil
 }

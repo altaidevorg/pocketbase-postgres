@@ -2,6 +2,8 @@ package core
 
 import (
 	"encoding/json"
+	"database/sql"
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
@@ -646,12 +648,12 @@ func (m *Collection) AddIndex(name string, unique bool, columnsExpr string, optW
 	if unique {
 		idx.WriteString("UNIQUE ")
 	}
-	idx.WriteString("INDEX `")
+	idx.WriteString("INDEX \"")
 	idx.WriteString(name)
-	idx.WriteString("` ")
-	idx.WriteString("ON `")
+	idx.WriteString("\" ")
+	idx.WriteString("ON \"")
 	idx.WriteString(m.Name)
-	idx.WriteString("` (")
+	idx.WriteString("\" (")
 	idx.WriteString(columnsExpr)
 	idx.WriteString(")")
 	if optWhereExpr != "" {
@@ -763,7 +765,10 @@ func (c *Collection) updateGeneratedIdIfExists(app App) {
 	// add a number to the current id (if already exists)
 	for i := 2; i < 1000; i++ {
 		var exists int
-		_ = app.CollectionQuery().Select("(1)").AndWhere(dbx.HashExp{"id": newId}).Limit(1).Row(&exists)
+		err := app.CollectionQuery().Select("(1)").AndWhere(dbx.NewExp("\"id\"={:id}", dbx.Params{"id": newId})).Limit(1).Row(&exists)
+		if err != nil && !errors.Is(err, sql.ErrNoRows) {
+			// fmt.Printf("DEBUG: updateGeneratedIdIfExists query failed: %v\n", err)
+		}
 		if exists == 0 {
 			break
 		}
@@ -1017,7 +1022,7 @@ func (c *Collection) initEmailField() {
 	// ensure that there is a unique index for the email field
 	if _, ok := dbutils.FindSingleColumnUniqueIndex(c.Indexes, FieldNameEmail); !ok {
 		c.Indexes = append(c.Indexes, fmt.Sprintf(
-			"CREATE UNIQUE INDEX `%s` ON `%s` (`%s`) WHERE `%s` != ''",
+			"CREATE UNIQUE INDEX \"%s\" ON \"%s\" (\"%s\") WHERE \"%s\" <> ''",
 			c.fieldIndexName(FieldNameEmail),
 			c.Name,
 			FieldNameEmail,

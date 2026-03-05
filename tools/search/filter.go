@@ -163,21 +163,22 @@ func resolveTokenizedExpr(expr fexpr.Expr, fieldResolver FieldResolver) (dbx.Exp
 		return nil, fmt.Errorf("invalid right operand %q - %v", expr.Right.Literal, rErr)
 	}
 
-	return buildResolversExpr(lResult, expr.Op, rResult)
+	return buildResolversExpr(lResult, expr.Op, rResult, fieldResolver)
 }
 
 func buildResolversExpr(
 	left *ResolverResult,
 	op fexpr.SignOp,
 	right *ResolverResult,
+	fieldResolver FieldResolver,
 ) (dbx.Expression, error) {
 	var expr dbx.Expression
 
 	switch op {
 	case fexpr.SignEq, fexpr.SignAnyEq:
-		expr = resolveEqualExpr(true, left, right)
+		expr = resolveEqualExpr(true, left, right, fieldResolver)
 	case fexpr.SignNeq, fexpr.SignAnyNeq:
-		expr = resolveEqualExpr(false, left, right)
+		expr = resolveEqualExpr(false, left, right, fieldResolver)
 	case fexpr.SignLike, fexpr.SignAnyLike:
 		// the right side is a column and therefor wrap it with "%" for contains like behavior
 		if len(right.Params) == 0 {
@@ -325,7 +326,7 @@ func resolveToken(token fexpr.Token, fieldResolver FieldResolver) (*ResolverResu
 // The expression `a = "" OR a is null` tends to perform better than
 // `COALESCE(a, "") = ""` since the direct match can be accomplished
 // with a seek while the COALESCE will induce a table scan.
-func resolveEqualExpr(equal bool, left, right *ResolverResult) dbx.Expression {
+func resolveEqualExpr(equal bool, left, right *ResolverResult, fieldResolver FieldResolver) dbx.Expression {
 	equalOp := "="
 	nullEqualOp := "IS"
 	concatOp := "OR"
@@ -335,6 +336,14 @@ func resolveEqualExpr(equal bool, left, right *ResolverResult) dbx.Expression {
 		// to nullable column values that are actually NULL yields to NULL instead of TRUE, eg.:
 		// `'example' != nullableColumn` -> NULL even if nullableColumn row value is NULL
 		equalOp = "IS NOT"
+
+		// check for postgres
+		if fieldResolver != nil {
+			if r, ok := fieldResolver.(interface{ IsPostgres() bool }); ok && r.IsPostgres() {
+				equalOp = "IS DISTINCT FROM"
+			}
+		}
+
 		nullEqualOp = equalOp
 		concatOp = "AND"
 		nullExpr = "IS NOT NULL"
@@ -637,6 +646,7 @@ func (e *manyVsManyExpr) Build(db *dbx.DB, params dbx.Params) string {
 	lAlias := "__ml" + security.PseudorandomString(8)
 	rAlias := "__mr" + security.PseudorandomString(8)
 
+	// fieldResolver is not needed for the internal expression
 	whereExpr, buildErr := buildResolversExpr(
 		&ResolverResult{
 			NullFallback: e.left.NullFallback,
@@ -650,6 +660,7 @@ func (e *manyVsManyExpr) Build(db *dbx.DB, params dbx.Params) string {
 			// doesn't matter whether it is applied on the left or right subquery operand
 			AfterBuild: dbx.Not, // inverse for the not-exist expression
 		},
+		nil, // no field resolver available/needed here
 	)
 
 	if buildErr != nil {
@@ -708,9 +719,9 @@ func (e *manyVsOneExpr) Build(db *dbx.DB, params dbx.Params) string {
 	var buildErr error
 
 	if e.inverse {
-		whereExpr, buildErr = buildResolversExpr(r2, e.op, r1)
+		whereExpr, buildErr = buildResolversExpr(r2, e.op, r1, nil)
 	} else {
-		whereExpr, buildErr = buildResolversExpr(r1, e.op, r2)
+		whereExpr, buildErr = buildResolversExpr(r1, e.op, r2, nil)
 	}
 
 	if buildErr != nil {

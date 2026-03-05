@@ -74,6 +74,19 @@ func NewSimpleFieldResolver(allowedFields ...string) *SimpleFieldResolver {
 // If `allowedFields` are empty no fields filtering is applied.
 type SimpleFieldResolver struct {
 	allowedFields []string
+	isPostgres    bool
+}
+
+// SetIsPostgres configures the resolver to generate PostgreSQL compatible
+// queries (eg. using "->" instead of "JSON_EXTRACT").
+func (r *SimpleFieldResolver) SetIsPostgres(v bool) *SimpleFieldResolver {
+	r.isPostgres = v
+	return r
+}
+
+// IsPostgres settings of the resolver.
+func (r *SimpleFieldResolver) IsPostgres() bool {
+	return r.isPostgres
 }
 
 // UpdateQuery implements `search.UpdateQuery` interface.
@@ -101,6 +114,59 @@ func (r *SimpleFieldResolver) Resolve(field string) (*ResolverResult, error) {
 
 	// treat as json path
 	var jsonPath strings.Builder
+	if r.isPostgres {
+		// Postgres uses -> for json path traversal and ->> for checks
+		// -----------------------------------------------------------
+		jsonPath.WriteString(inflector.Columnify(parts[0]))
+		for i, part := range parts[1:] {
+			if _, err := strconv.Atoi(part); err == nil {
+				jsonPath.WriteString("->")
+				jsonPath.WriteString(part)
+			} else {
+				jsonPath.WriteString("->'")
+				jsonPath.WriteString(inflector.Columnify(part))
+				jsonPath.WriteString("'")
+			}
+			// if it is the last part, use ->> to unquote the result
+			if i == len(parts[1:])-1 {
+				jsonPath.WriteString(">>") // fix: the loop constructs ->'key' or ->index, so we need to change the last arrow to ->>
+			}
+		}
+
+		// Rewrite the construction to be cleaner for Postgres:
+		// col->'a'->'b' ->> 'c'
+		jsonPath.Reset()
+		jsonPath.WriteString("[[")
+		jsonPath.WriteString(inflector.Columnify(parts[0]))
+		jsonPath.WriteString("]]")
+		for i, part := range parts[1:] {
+			isLast := i == len(parts[1:])-1
+			if _, err := strconv.Atoi(part); err == nil {
+				if isLast {
+					jsonPath.WriteString("->>")
+				} else {
+					jsonPath.WriteString("->")
+				}
+				jsonPath.WriteString(part)
+			} else {
+				if isLast {
+					jsonPath.WriteString("->>'")
+				} else {
+					jsonPath.WriteString("->'")
+				}
+				jsonPath.WriteString(inflector.Columnify(part))
+				jsonPath.WriteString("'")
+			}
+		}
+
+		return &ResolverResult{
+			NullFallback: NullFallbackDisabled,
+			Identifier:   jsonPath.String(),
+		}, nil
+	}
+
+	// SQLite uses JSON_EXTRACT
+	// -----------------------------------------------------------
 	jsonPath.WriteString("$")
 	for _, part := range parts[1:] {
 		if _, err := strconv.Atoi(part); err == nil {

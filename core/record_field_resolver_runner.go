@@ -340,13 +340,17 @@ func (r *runner) processRequestBodyEachModifier(bodyField Field) (*search.Resolv
 
 	placeholder := "dataEach" + security.PseudorandomString(8)
 	cleanFieldName := inflector.Columnify(bodyField.GetName())
-	jeTable := fmt.Sprintf("json_each({:%s})", placeholder)
+	
+	driver := getDriverName(r.resolver.app.DB())
+	var jeTable string
+	if driver == "postgres" {
+		jeTable = fmt.Sprintf("jsonb_array_elements({:%s})", placeholder)
+	} else {
+		jeTable = fmt.Sprintf("json_each({:%s})", placeholder)
+	}
 	jeAlias := "__dataEach_je_" + cleanFieldName + r.resolver.joinAliasSuffix
 
 	err = r.resolver.registerJoin(jeTable, jeAlias, nil)
-	if err != nil {
-		return nil, err
-	}
 
 	result := &search.ResolverResult{
 		Identifier: fmt.Sprintf("[[%s.value]]", jeAlias),
@@ -359,7 +363,12 @@ func (r *runner) processRequestBodyEachModifier(bodyField Field) (*search.Resolv
 
 	if r.withMultiMatch {
 		placeholder2 := "mm" + placeholder
-		jeTable2 := fmt.Sprintf("json_each({:%s})", placeholder2)
+		var jeTable2 string
+		if driver == "postgres" {
+			jeTable2 = fmt.Sprintf("jsonb_array_elements({:%s})", placeholder2)
+		} else {
+			jeTable2 = fmt.Sprintf("json_each({:%s})", placeholder2)
+		}
 		jeAlias2 := "__mm_" + jeAlias
 
 		r.multiMatch.Joins = append(r.multiMatch.Joins, &search.Join{
@@ -478,11 +487,11 @@ func (r *runner) processActiveProps() (*search.ResolverResult, error) {
 
 			result := &search.ResolverResult{
 				NullFallback: search.NullFallbackDisabled,
-				Identifier:   dbutils.JSONExtract(r.activeTableAlias+"."+inflector.Columnify(prop), jsonPathStr),
+				Identifier:   dbutils.JSONExtract(getDriverName(r.resolver.app.DB()), r.activeTableAlias+"."+inflector.Columnify(prop), jsonPathStr),
 			}
 
 			if r.withMultiMatch {
-				r.multiMatch.ValueIdentifier = dbutils.JSONExtract(r.multiMatchActiveTableAlias+"."+inflector.Columnify(prop), jsonPathStr)
+				r.multiMatch.ValueIdentifier = dbutils.JSONExtract(getDriverName(r.resolver.app.DB()), r.multiMatchActiveTableAlias+"."+inflector.Columnify(prop), jsonPathStr)
 				result.MultiMatchSubQuery = r.multiMatch
 			}
 
@@ -571,7 +580,7 @@ func (r *runner) processActiveProps() (*search.ResolverResult, error) {
 						"[[%s.id]] IN (SELECT [[%s.value]] FROM %s {{%s}})",
 						r.activeTableAlias,
 						jeAlias,
-						dbutils.JSONEach(newTableAlias+"."+cleanBackFieldName),
+						dbutils.JSONEach(getDriverName(r.resolver.app.DB()), newTableAlias+"."+cleanBackFieldName),
 						jeAlias,
 					)),
 				)
@@ -617,7 +626,7 @@ func (r *runner) processActiveProps() (*search.ResolverResult, error) {
 							"[[%s.id]] IN (SELECT [[%s.value]] FROM %s {{%s}})",
 							r.multiMatchActiveTableAlias,
 							jeAlias2,
-							dbutils.JSONEach(newTableAlias2+"."+cleanBackFieldName),
+							dbutils.JSONEach(getDriverName(r.resolver.app.DB()), newTableAlias2+"."+cleanBackFieldName),
 							jeAlias2,
 						)),
 					},
@@ -673,7 +682,7 @@ func (r *runner) processActiveProps() (*search.ResolverResult, error) {
 		} else {
 			jeAlias := "__je_" + newTableAlias
 
-			err := r.resolver.registerJoin(dbutils.JSONEach(prefixedFieldName), jeAlias, nil)
+			err := r.resolver.registerJoin(dbutils.JSONEach(getDriverName(r.resolver.app.DB()), prefixedFieldName), jeAlias, nil)
 			if err != nil {
 				return nil, err
 			}
@@ -715,7 +724,7 @@ func (r *runner) processActiveProps() (*search.ResolverResult, error) {
 			r.multiMatch.Joins = append(
 				r.multiMatch.Joins,
 				&search.Join{
-					TableName:  dbutils.JSONEach(prefixedFieldName2),
+					TableName:  dbutils.JSONEach(getDriverName(r.resolver.app.DB()), prefixedFieldName2),
 					TableAlias: jeAlias2,
 				},
 				&search.Join{
@@ -761,12 +770,12 @@ func (r *runner) finalizeActivePropsProcessing(collection *Collection, prop stri
 		jePair := r.activeTableAlias + "." + cleanFieldName
 
 		result := &search.ResolverResult{
-			Identifier: dbutils.JSONArrayLength(jePair),
+			Identifier: dbutils.JSONArrayLength(getDriverName(r.resolver.app.DB()), jePair),
 		}
 
 		if r.withMultiMatch {
 			jePair2 := r.multiMatchActiveTableAlias + "." + cleanFieldName
-			r.multiMatch.ValueIdentifier = dbutils.JSONArrayLength(jePair2)
+			r.multiMatch.ValueIdentifier = dbutils.JSONArrayLength(getDriverName(r.resolver.app.DB()), jePair2)
 			result.MultiMatchSubQuery = r.multiMatch
 		}
 
@@ -779,7 +788,7 @@ func (r *runner) finalizeActivePropsProcessing(collection *Collection, prop stri
 		jePair := r.activeTableAlias + "." + cleanFieldName
 		jeAlias := "__je_" + r.activeTableAlias + "_" + cleanFieldName + r.resolver.joinAliasSuffix
 
-		err := r.resolver.registerJoin(dbutils.JSONEach(jePair), jeAlias, nil)
+		err := r.resolver.registerJoin(dbutils.JSONEach(getDriverName(r.resolver.app.DB()), jePair), jeAlias, nil)
 		if err != nil {
 			return nil, err
 		}
@@ -797,7 +806,7 @@ func (r *runner) finalizeActivePropsProcessing(collection *Collection, prop stri
 			jeAlias2 := "__je_" + r.multiMatchActiveTableAlias + "_" + cleanFieldName + r.resolver.joinAliasSuffix
 
 			r.multiMatch.Joins = append(r.multiMatch.Joins, &search.Join{
-				TableName:  dbutils.JSONEach(jePair2),
+				TableName:  dbutils.JSONEach(getDriverName(r.resolver.app.DB()), jePair2),
 				TableAlias: jeAlias2,
 			})
 			r.multiMatch.ValueIdentifier = fmt.Sprintf("[[%s.value]]", jeAlias2)
@@ -835,9 +844,9 @@ func (r *runner) finalizeActivePropsProcessing(collection *Collection, prop stri
 	// (https://github.com/pocketbase/pocketbase/issues/4068)
 	if field.Type() == FieldTypeJSON {
 		result.NullFallback = search.NullFallbackDisabled
-		result.Identifier = dbutils.JSONExtract(r.activeTableAlias+"."+cleanFieldName, "")
+		result.Identifier = dbutils.JSONExtract(getDriverName(r.resolver.app.DB()), r.activeTableAlias+"."+cleanFieldName, "")
 		if r.withMultiMatch {
-			r.multiMatch.ValueIdentifier = dbutils.JSONExtract(r.multiMatchActiveTableAlias+"."+cleanFieldName, "")
+			r.multiMatch.ValueIdentifier = dbutils.JSONExtract(getDriverName(r.resolver.app.DB()), r.multiMatchActiveTableAlias+"."+cleanFieldName, "")
 		}
 	}
 

@@ -26,9 +26,10 @@ func UniqueId(db dbx.Builder, tableName string) validation.RuleFunc {
 		err := db.
 			Select("id").
 			From(tableName).
-			Where(dbx.HashExp{"id": v}).
+			Where(dbx.NewExp("\"id\"={:id}", dbx.Params{"id": v})).
 			Limit(1).
 			Row(&foundId)
+
 
 		if (err != nil && !errors.Is(err, sql.ErrNoRows)) || foundId != "" {
 			return validation.NewError("validation_invalid_or_existing_id", "The model id is invalid or already exists.")

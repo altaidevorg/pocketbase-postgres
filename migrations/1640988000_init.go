@@ -34,7 +34,32 @@ func init() {
 
 		// -----------------------------------------------------------
 
-		_, execerr := txApp.DB().NewQuery(`
+		// -----------------------------------------------------------
+		
+		var query string
+		var indexQuery string
+		if core.GetDBDriverName(txApp) == "postgres" {
+			query = `
+			CREATE TABLE {{_collections}} (
+				[[id]]         TEXT PRIMARY KEY DEFAULT ('r'||substring(md5(random()::text) from 1 for 14)) NOT NULL,
+				[[system]]     BOOLEAN DEFAULT FALSE NOT NULL,
+				[[type]]       TEXT DEFAULT 'base' NOT NULL,
+				[[name]]       TEXT UNIQUE NOT NULL,
+				[[fields]]     JSON DEFAULT '[]' NOT NULL,
+				[[indexes]]    JSON DEFAULT '[]' NOT NULL,
+				[[listRule]]   TEXT DEFAULT NULL,
+				[[viewRule]]   TEXT DEFAULT NULL,
+				[[createRule]] TEXT DEFAULT NULL,
+				[[updateRule]] TEXT DEFAULT NULL,
+				[[deleteRule]] TEXT DEFAULT NULL,
+				[[options]]    JSON DEFAULT '{}' NOT NULL,
+				[[created]]    TEXT DEFAULT '' NOT NULL,
+				[[updated]]    TEXT DEFAULT '' NOT NULL
+			);
+			`
+			indexQuery = `CREATE INDEX IF NOT EXISTS idx__collections_type on {{_collections}} ([[type]]);`
+		} else {
+			query = `
 			CREATE TABLE {{_collections}} (
 				[[id]]         TEXT PRIMARY KEY DEFAULT ('r'||lower(hex(randomblob(7)))) NOT NULL,
 				[[system]]     BOOLEAN DEFAULT FALSE NOT NULL,
@@ -51,16 +76,27 @@ func init() {
 				[[created]]    TEXT DEFAULT (strftime('%Y-%m-%d %H:%M:%fZ')) NOT NULL,
 				[[updated]]    TEXT DEFAULT (strftime('%Y-%m-%d %H:%M:%fZ')) NOT NULL
 			);
+			`
+			indexQuery = `CREATE INDEX IF NOT EXISTS idx__collections_type on {{_collections}} ([[type]]);`
+		}
 
-			CREATE INDEX IF NOT EXISTS idx__collections_type on {{_collections}} ([[type]]);
-		`).Execute()
+		_, execerr := txApp.DB().NewQuery(query).Execute()
 		if execerr != nil {
 			return fmt.Errorf("_collections exec error: %w", execerr)
 		}
+		fmt.Println("DEBUG: _collections created")
+
+		_, execerr = txApp.DB().NewQuery(indexQuery).Execute()
+		if execerr != nil {
+			return fmt.Errorf("_collections index exec error: %w", execerr)
+		}
+		fmt.Println("DEBUG: _collections index created")
 
 		if err := createMFAsCollection(txApp); err != nil {
+			fmt.Printf("DEBUG: createMFAsCollection failed: %v\n", err)
 			return fmt.Errorf("_mfas error: %w", err)
 		}
+		fmt.Println("DEBUG: _mfas created")
 
 		if err := createOTPsCollection(txApp); err != nil {
 			return fmt.Errorf("_otps error: %w", err)
@@ -90,6 +126,7 @@ func init() {
 			core.CollectionNameMFAs,
 			core.CollectionNameOTPs,
 			core.CollectionNameAuthOrigins,
+			core.CollectionNameExternalAuths, // was missing
 			"_params",
 			"_collections",
 		}
@@ -105,14 +142,28 @@ func init() {
 }
 
 func createParamsTable(txApp core.App) error {
-	_, execErr := txApp.DB().NewQuery(`
+	var query string
+	if core.GetDBDriverName(txApp) == "postgres" {
+		query = `
+		CREATE TABLE {{_params}} (
+			[[id]]      TEXT PRIMARY KEY DEFAULT ('r'||substring(md5(random()::text) from 1 for 14)) NOT NULL,
+			[[value]]   JSON DEFAULT NULL,
+			[[created]] TEXT DEFAULT '' NOT NULL,
+			[[updated]] TEXT DEFAULT '' NOT NULL
+		);
+		`
+	} else {
+		query = `
 		CREATE TABLE {{_params}} (
 			[[id]]      TEXT PRIMARY KEY DEFAULT ('r'||lower(hex(randomblob(7)))) NOT NULL,
 			[[value]]   JSON DEFAULT NULL,
 			[[created]] TEXT DEFAULT (strftime('%Y-%m-%d %H:%M:%fZ')) NOT NULL,
 			[[updated]] TEXT DEFAULT (strftime('%Y-%m-%d %H:%M:%fZ')) NOT NULL
 		);
-	`).Execute()
+		`
+	}
+
+	_, execErr := txApp.DB().NewQuery(query).Execute()
 
 	return execErr
 }

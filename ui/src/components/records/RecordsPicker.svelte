@@ -156,7 +156,15 @@
 
             let sort = "";
             if (!isView) {
-                sort = "-@rowid"; // all collections with exception to the view has this field
+                // use created or updated as default sort
+                const fields = CommonHelper.getAllCollectionIdentifiers(collection);
+                if (fields.includes("created")) {
+                    sort = "-created";
+                } else if (fields.includes("updated")) {
+                    sort = "-updated";
+                } else {
+                    sort = "-id";
+                }
             }
 
             const result = await ApiClient.collection(collectionId).getList(page, batchSize, {

@@ -2,6 +2,8 @@ package core
 
 import (
 	"context"
+	"database/sql"
+	"errors"
 	"fmt"
 	"regexp"
 	"strconv"
@@ -558,14 +560,36 @@ func (cv *collectionValidator) checkIndexes(value any) error {
 
 		// ensure that the index name is not used in another collection
 		var usedTblName string
-		_ = cv.app.ConcurrentDB().Select("tbl_name").
-			From("sqlite_master").
-			AndWhere(dbx.HashExp{"type": "index"}).
-			AndWhere(dbx.NewExp("LOWER([[tbl_name]])!=LOWER({:oldName})", dbx.Params{"oldName": cv.original.Name})).
-			AndWhere(dbx.NewExp("LOWER([[tbl_name]])!=LOWER({:newName})", dbx.Params{"newName": cv.new.Name})).
-			AndWhere(dbx.NewExp("LOWER([[name]])=LOWER({:indexName})", dbx.Params{"indexName": parsed.IndexName})).
-			Limit(1).
-			Row(&usedTblName)
+
+		var isPostgres bool
+		if baseApp, ok := cv.app.(*BaseApp); ok {
+			isPostgres = baseApp.isPostgres
+		}
+
+		if isPostgres {
+			err := cv.app.ConcurrentDB().Select("tablename").
+				From("pg_indexes").
+				Where(dbx.NewExp("\"schemaname\"='public'")).
+				AndWhere(dbx.NewExp("LOWER(\"tablename\")!=LOWER({:oldName})", dbx.Params{"oldName": cv.original.Name})).
+				AndWhere(dbx.NewExp("LOWER(\"tablename\")!=LOWER({:newName})", dbx.Params{"newName": cv.new.Name})).
+				AndWhere(dbx.NewExp("LOWER(\"indexname\")=LOWER({:indexName})", dbx.Params{"indexName": parsed.IndexName})).
+				Limit(1).
+				Row(&usedTblName)
+			
+			if err != nil && !errors.Is(err, sql.ErrNoRows) {
+				// fmt.Printf("DEBUG: checkIndexes Postgres query failed: %v\n", err)
+			}
+		} else {
+			_ = cv.app.ConcurrentDB().Select("tbl_name").
+				From("sqlite_master").
+				AndWhere(dbx.HashExp{"type": "index"}).
+				AndWhere(dbx.NewExp("LOWER([[tbl_name]])!=LOWER({:oldName})", dbx.Params{"oldName": cv.original.Name})).
+				AndWhere(dbx.NewExp("LOWER([[tbl_name]])!=LOWER({:newName})", dbx.Params{"newName": cv.new.Name})).
+				AndWhere(dbx.NewExp("LOWER([[name]])=LOWER({:indexName})", dbx.Params{"indexName": parsed.IndexName})).
+				Limit(1).
+				Row(&usedTblName)
+		}
+
 		if usedTblName != "" {
 			return validation.Errors{
 				strconv.Itoa(i): validation.NewError(

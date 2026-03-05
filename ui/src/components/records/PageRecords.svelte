@@ -31,7 +31,7 @@
     let recordsList;
     let recordsCount;
     let filter = initialQueryParams.get("filter") || "";
-    let sort = initialQueryParams.get("sort") || "-@rowid";
+    let sort = initialQueryParams.get("sort") || "-created";
     let selectedCollectionIdOrName = initialQueryParams.get("collection") || $activeCollection?.id;
     let totalCount = 0; // used to manully change the count without the need of reloading the recordsCount component
 
@@ -86,7 +86,7 @@
     function reset() {
         selectedCollectionIdOrName = $activeCollection?.id;
         filter = "";
-        sort = "-@rowid";
+        sort = "-created";
 
         normalizeSort();
 
@@ -114,11 +114,12 @@
 
         // invalid sort expression or missing sort field
         if (sortFields.filter((f) => collectionFields.includes(f)).length != sortFields.length) {
-            if ($activeCollection?.type != "view") {
-                sort = "-@rowid"; // all collections with exception to the view has this field
-            } else if (collectionFields.includes("created")) {
-                // common autodate field
+            if (collectionFields.includes("created")) {
                 sort = "-created";
+            } else if (collectionFields.includes("updated")) {
+                sort = "-updated";
+            } else if ($activeCollection?.type != "view" || collectionFields.includes("id")) {
+                sort = "-id";
             } else {
                 sort = "";
             }
