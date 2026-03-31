@@ -16,7 +16,7 @@ To force your project to use your remote GitHub fork instead, you must use the `
 Inside your own Go project directory (where your app's `main.go` lives), run this to override the module:
 
 ```bash
-go mod edit -replace github.com/pocketbase/pocketbase=github.com/altaidevorg/pocketbase-postgresql@master
+go mod edit -replace github.com/pocketbase/pocketbase=github.com/altaidevorg/pocketbase-postgres@main
 ```
 *(Note: You can replace `@master` with a specific commit hash or version tag like `@v0.22.x` for stability).*
 
