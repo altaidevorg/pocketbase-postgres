@@ -26,12 +26,12 @@ This command automatically updates your `go.mod` to look something like this:
 ```go
 module my-cool-app
 
-go 1.23
+go 1.25.0
 
-require github.com/pocketbase/pocketbase v0.22.0
+require github.com/pocketbase/pocketbase v0.36.3
 
 // Redirects the official import path to our postgres fork!
-replace github.com/pocketbase/pocketbase => github.com/altaidevorg/pocketbase-postgresql master
+replace github.com/pocketbase/pocketbase => github.com/altaidevorg/pocketbase-postgres main
 ```
 
 Finally, tidy up the dependencies to download the fork:
