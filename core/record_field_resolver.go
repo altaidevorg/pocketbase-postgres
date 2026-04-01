@@ -76,6 +76,12 @@ func (r *RecordFieldResolver) SetAllowHiddenFields(allowHiddenFields bool) {
 	r.allowHiddenFields = allowHiddenFields
 }
 
+// IsPostgres reports whether the backing app uses PostgreSQL, so filter/rule SQL
+// can use dialect-specific operators (e.g. IS DISTINCT FROM for !=).
+func (r *RecordFieldResolver) IsPostgres() bool {
+	return r.app.IsPostgres()
+}
+
 // NewRecordFieldResolver creates and initializes a new `RecordFieldResolver`.
 func NewRecordFieldResolver(
 	app App,
