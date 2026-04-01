@@ -192,6 +192,19 @@ func (r *RecordFieldResolver) updateQueryWithCollectionListRule(c *Collection, t
 }
 
 func (r *RecordFieldResolver) updateQueryWithDeduplicateConstraint(query *dbx.SelectQuery) {
+	// PostgreSQL has no equality operator for the json type, so SELECT DISTINCT *
+	// fails (42883) when the selected row includes json columns. Deduplicate by the
+	// collection primary key instead; other columns are functionally dependent on id.
+	if r.app.IsPostgres() {
+		groupByCol := r.baseCollection.Name
+		if r.baseCollectionAlias != "" {
+			groupByCol = r.baseCollectionAlias
+		}
+		groupByCol += ".id"
+		query.GroupBy(groupByCol)
+		return
+	}
+
 	query.Distinct(true)
 
 	// @todo Research better options for generic rows deduplication.
